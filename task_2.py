@@ -1,14 +1,16 @@
 import sqlite3
+from typing import Tuple, List
+from sqlite3 import Connection, Cursor
 from faker import Faker
 
 
-def connect_to_db():
+def connect_to_db() -> Tuple[Connection, Cursor]:
     connection = sqlite3.connect("users.db")
     cursor = connection.cursor()
     return connection, cursor
 
 
-def create_table():
+def create_table() -> None:
     connection, cursor = connect_to_db()
     cursor.execute(
         "CREATE TABLE IF NOT EXISTS users (id INTEGER PRIMARY KEY, name TEXT, age INTEGER)"
@@ -17,7 +19,7 @@ def create_table():
     connection.close()
 
 
-def insert_data():
+def insert_data() -> None:
     connection, cursor = connect_to_db()
     fake = Faker()
     for _ in range(100):
@@ -29,7 +31,7 @@ def insert_data():
     connection.close()
 
 
-def select_data():
+def select_data() -> List[Tuple[str, int]]:
     connection, cursor = connect_to_db()
     cursor.execute("SELECT name, age FROM users WHERE age > 30")
     users = cursor.fetchall()
