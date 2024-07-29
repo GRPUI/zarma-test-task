@@ -2,8 +2,12 @@ import requests
 
 
 def get_data(link: str) -> str:
-    response = requests.get(link)
-    return response.text
+    try:
+        response = requests.get(link)
+        return response.text
+    except Exception as e:
+        print(f"Произошла ошибка: {e}")
+        return ''
 
 
 def save_data(data: str) -> None:
